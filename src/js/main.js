@@ -4,8 +4,9 @@ console.log('>> Ready :)');
 
 // -- Variables -- //
 //arrays//
-let series = [];
-let favouriteSeries = [];
+let seriesAnime = [];
+let favouriteSeriesAnime = [];
+
 //resto de variables//
 const apiUrl = 'https://api.jikan.moe/v3/search/anime';
 
@@ -16,7 +17,6 @@ const inputSearch = document.querySelector('.js-search_series');
 const btnSearch = document.querySelector('.js-btn-search');
 const btnReset = document.querySelector('.js-btn-reset-search');
 
-
 // -- Funciones -- //
 
 //traen codigo del html//
@@ -25,7 +25,7 @@ function getHtmlSerie(serie) {
     serie.image_url ||
     'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 
-  let htmlCode = `<li class="container-li">`;
+  let htmlCode = `<li class="container-li js-selectorSeriesFavourites" data-id="${serie.mal_id}">`;
   htmlCode += `  <h2 class="title-series">${serie.title}</h2>`;
   htmlCode += `  <img class="img-series js-img-series" src="${urlImg}"`;
   htmlCode += `    alt="no existe imagen">`;
@@ -48,26 +48,57 @@ function getHtmlSerieFavourite(serie) {
   return htmlCode;
 }
 
-
 // pintan //
 function paintListSeries() {
-  if (series) {
-    for (let index = 0; index < series.length; index++) {
-      const serie = series[index];
+  if (seriesAnime) {
+    for (let index = 0; index < seriesAnime.length; index++) {
+      const serie = seriesAnime[index];
       listSeries.innerHTML += getHtmlSerie(serie);
     }
   } else {
     listSeries.innerHTML = 'serie no encontrada, prueba con otra'; // si me da tiempo lo meto en otro lado, ahora lo tengo en el ul.
   }
+  listenAddSerie(); // lo meto aqui xq ya han pintado las series.
 }
 
 function paintListFavouriteSeries() {
-  for (let index = 0; index < favouriteSeries.length; index++) {
-    const serie = favouriteSeries[index];
+  listSeriesFavourite.innerHTML = '';
+  for (let index = 0; index < favouriteSeriesAnime.length; index++) {
+    const serie = favouriteSeriesAnime[index];
     listSeriesFavourite.innerHTML += getHtmlSerieFavourite(serie);
   }
 }
 
+// escuchar //
+function listenAddSerie() {
+  const selectorSerieFavourite = document.querySelectorAll(
+    '.js-selectorSeriesFavourites'
+  );
+  // Añadir los listener
+  for (let index = 0; index < selectorSerieFavourite.length; index++) {
+    const element = selectorSerieFavourite[index];
+    element.addEventListener('click', addSeriesFavourite);
+  }
+}
+
+function addSeriesFavourite(ev) {
+  //guardo el in en el evento con currentTarget y utilizo la propiedad .find
+  const serieId = parseInt(ev.currentTarget.dataset.id);
+  const serie = seriesAnime.find((serie) => serie.mal_id === serieId);
+  // para que no se repita utilizo nuevamente el .find
+  const serieFav = favouriteSeriesAnime.find(
+    (serie) => serie.mal_id === serieId
+  );
+  if (serieFav === undefined) {
+    favouriteSeriesAnime.push({
+      title: serie.title,
+      mal_id: serie.mal_id,
+      image_url: serie.image_url,
+    });
+  }
+
+  paintListFavouriteSeries();
+}
 
 //--Fetch--//
 function searchSeries(ev) {
@@ -77,8 +108,7 @@ function searchSeries(ev) {
   fetch(`${apiUrl}?q=${searchText}`)
     .then((response) => response.json())
     .then((data) => {
-      series = data.results;
-      favouriteSeries = data.results;
+      seriesAnime = data.results;
       paintListSeries();
       paintListFavouriteSeries();
     });
@@ -93,11 +123,3 @@ function handleClickReset() {
 
 btnSearch.addEventListener('click', searchSeries);
 btnReset.addEventListener('click', handleClickReset);
-
-
-
-
-
-
-
-
