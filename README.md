@@ -16,12 +16,12 @@ Si te apetece comentarme mejoras que podría realizar, piensa que estoy aprendie
 
  Para realizar el proyecto me he apoyado en:
 
-  - JavaScrip
+  - JavaScript
   - HTML
   - SASS
   - Gulp
-  - Prittierrc
-  - Package.json
+  - Prettier
+  - EsLint
 
 
 ## Autora ✒️
