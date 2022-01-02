@@ -14,16 +14,19 @@
     <h1 class="principal_title">Buscador de Series de Anime</h1>
   </header>
   <main>
-    <section class="container">
-      <input class="search_series js-search_series" type="text" placeholder="Escribe aquí">
-      <button class="btn-search js-btn-search">Buscar</button>
-      <button class="btn-reset-search js-btn-reset-search">Reset</button>
+    <section class="section-search">
+      <input class="section-search__imput-series js-search_series" type="text" placeholder="Escribe aquí">
+      <div>
+      <button class="section-search__btn-search js-btn-search">Buscar</button>
+      <button class="section-search__btn-reset-search js-btn-reset-search">Reset</button>
+    </div>
     </section>
 
-    <div class="container-sections">
-      <section class="section-list js-section-list">
-
-        <ul class="list-series js-list-series">
+    <div class="section-list">
+      <section class="section-list-series js-section-list">
+        <h2 class="section-list-series__title">Series:</h2>
+        <ul class="section-list-series__list js-list-series">
+        
           <!--
                 aqui va lo de la funcion getHtmlSerie(serie)
              -->
@@ -31,9 +34,10 @@
 
       </section>
 
-      <section class="section-list js-section-list-favourite">
-
-        <ul class="list-series js-list-series-favourite">
+      <section class="section-list-favourites js-section-list-favourite">
+        <h2 class="section-list-favourites__title">Mis favoritas:</h2>
+        <ul class="section-list-favourites__list js-list-series-favourite">
+         
           <!--
                 aqui va lo de la funcion getHtmlSerie(serie)
              -->

@@ -25,9 +25,9 @@ function getHtmlSerie(serie) {
     serie.image_url ||
     'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 
-  let htmlCode = `<li class="container-li js-selectorSeriesFavourites" data-id="${serie.mal_id}">`;
-  htmlCode += `  <h2 class="title-series">${serie.title}</h2>`;
-  htmlCode += `  <img class="img-series js-img-series" src="${urlImg}"`;
+  let htmlCode = `<li class="serie js-selectorSeriesFavourites" data-id="${serie.mal_id}">`;
+  htmlCode += `  <h2 class="serie__title">${serie.title}</h2>`;
+  htmlCode += `  <img class="serie__img js-img-series" src="${urlImg}"`;
   htmlCode += `    alt="no existe imagen">`;
   htmlCode += `</li>`;
 
@@ -39,9 +39,9 @@ function getHtmlSerieFavourite(serie) {
     serie.image_url ||
     'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 
-  let htmlCode = `<li class="container-li-favourites">`;
-  htmlCode += `  <h2 class="title-series">${serie.title}</h2>`;
-  htmlCode += `  <img class="img-series js-img-series" src="${urlImg}"`;
+  let htmlCode = `<li class="serie-favourite">`;
+  htmlCode += `  <h2 class="serie-favourite__title">${serie.title}</h2>`;
+  htmlCode += `  <img class="serie-favourite__img js-img-series" src="${urlImg}"`;
   htmlCode += `    alt="no existe imagen">`;
   htmlCode += `</li>`;
 
@@ -50,13 +50,14 @@ function getHtmlSerieFavourite(serie) {
 
 // pintan //
 function paintListSeries() {
+  listSeries.innerHTML = '';
   if (seriesAnime) {
     for (let index = 0; index < seriesAnime.length; index++) {
       const serie = seriesAnime[index];
       listSeries.innerHTML += getHtmlSerie(serie);
     }
   } else {
-    listSeries.innerHTML = 'serie no encontrada, prueba con otra'; // si me da tiempo lo meto en otro lado, ahora lo tengo en el ul.
+    listSeries.innerHTML = 'Serie no encontrada, prueba con otra'; // si me da tiempo lo meto en otro lado, ahora lo tengo en el ul.
   }
   listenAddSerie(); // lo meto aqui xq ya han pintado las series.
 }
@@ -89,6 +90,10 @@ function addSeriesFavourite(ev) {
   const serieFav = favouriteSeriesAnime.find(
     (serie) => serie.mal_id === serieId
   );
+
+  ev.currentTarget.classList.add('now-favourite'); // para cambiar el fondo y el texto de color cuando lo seleccionemos para añadirlo a fav.
+
+
   if (serieFav === undefined) {
     favouriteSeriesAnime.push({
       title: serie.title,
