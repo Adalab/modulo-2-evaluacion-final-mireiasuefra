@@ -42,7 +42,7 @@ function getHtmlSerieFavourite(serie) {
     'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 
   let htmlCode = `<li class="serie-favourite">`;
-  htmlCode += `  <h2 class="serie-favourite__title">${serie.title}</h2>`;
+  htmlCode += `  <h2 class="serie-favourite__title">${serie.title} <span class="delete-fav js-deleteFav" data-id="${serie.mal_id}">x</span></h2>`;
   htmlCode += `  <img class="serie-favourite__img js-img-series" src="${urlImg}"`;
   htmlCode += `    alt="no existe imagen">`;
   htmlCode += `</li>`;
@@ -70,6 +70,7 @@ function paintListFavouriteSeries() {
     const serie = favouriteSeriesAnime[index];
     listSeriesFavourite.innerHTML += getHtmlSerieFavourite(serie);
   }
+  listenRemoveFavourite(); // lo meto aqui xq ya han pintado las series.
 }
 
 // escuchar //
@@ -81,6 +82,16 @@ function listenAddSerie() {
   for (let index = 0; index < selectorSerieFavourite.length; index++) {
     const element = selectorSerieFavourite[index];
     element.addEventListener('click', addSeriesFavourite);
+  }
+}
+
+// para añadir funcionalidad a la X que he puesto en la lista de fav y poder eliminar los que queramos.  
+function listenRemoveFavourite() {
+  const selectorSerieFavourite = document.querySelectorAll('.js-deleteFav');
+  // Añadir los listener
+  for (let index = 0; index < selectorSerieFavourite.length; index++) {
+    const element = selectorSerieFavourite[index];
+    element.addEventListener('click', removeSeriesFavourites);
   }
 }
 
@@ -104,7 +115,23 @@ function addSeriesFavourite(ev) {
   }
   // guardo en local con stringify el array de favoritos. Lo guardo cuando hay modificacion en la lista.
   localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  //pinto las series favoritas
+  paintListFavouriteSeries();
+}
 
+// repito la funcion de añadir series con las modificaciones necesarias para que se eliminen series en vez de añadirlas. Apoyandome en el .findindex (necesito la posicion) y el splice (que me da la opcion de eliminar)
+function removeSeriesFavourites(ev) {
+  const serieId = parseInt(ev.currentTarget.dataset.id);
+  const serieFavIndex = favouriteSeriesAnime.findIndex(
+    (serie) => serie.mal_id === serieId
+  );
+
+  if (serieFavIndex >= 0) {
+    favouriteSeriesAnime.splice(serieFavIndex, 1);
+  }
+  // vuelvo a guardar el local ya que hay modificaciones.
+  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  //vuelvo a pintar.
   paintListFavouriteSeries();
 }
 
