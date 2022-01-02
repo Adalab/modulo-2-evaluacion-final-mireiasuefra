@@ -3,9 +3,11 @@
 console.log('>> Ready :)');
 
 // -- Variables -- //
+
 //arrays//
 let seriesAnime = [];
-let favouriteSeriesAnime = [];
+// para el LocalStorage, relleno el array de fav con las seleccoionadas y para que no me de null le doy la opcion de que elija una u otra. Para que me lo pinte desde el principio tengo que llamar a la funcion de pintado desde el principio.
+let favouriteSeriesAnime = JSON.parse(localStorage.getItem('favourites')) || [];
 
 //resto de variables//
 const apiUrl = 'https://api.jikan.moe/v3/search/anime';
@@ -93,7 +95,6 @@ function addSeriesFavourite(ev) {
 
   ev.currentTarget.classList.add('now-favourite'); // para cambiar el fondo y el texto de color cuando lo seleccionemos para añadirlo a fav.
 
-
   if (serieFav === undefined) {
     favouriteSeriesAnime.push({
       title: serie.title,
@@ -101,6 +102,8 @@ function addSeriesFavourite(ev) {
       image_url: serie.image_url,
     });
   }
+  // guardo en local con stringify el array de favoritos. Lo guardo cuando hay modificacion en la lista.
+  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
 
   paintListFavouriteSeries();
 }
@@ -115,7 +118,6 @@ function searchSeries(ev) {
     .then((data) => {
       seriesAnime = data.results;
       paintListSeries();
-      paintListFavouriteSeries();
     });
 }
 
@@ -128,3 +130,5 @@ function handleClickReset() {
 
 btnSearch.addEventListener('click', searchSeries);
 btnReset.addEventListener('click', handleClickReset);
+//llamo a la funcion de pintado desde el principio para que me salgan las favoritas.
+paintListFavouriteSeries();
