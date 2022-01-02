@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evaluación final JavaScript</title>
+  <link rel="stylesheet" href="./assets/css/main.css" />
+</head>
+
+<body>
+
+  <header>
+    <h1 class="principal_title">Buscador de Series de Anime</h1>
+  </header>
+  <main>
+    <section class="section-search">
+      <input class="section-search__imput-series js-search_series" type="text" placeholder="Escribe aquí">
+      <div>
+        <button class="section-search__btn-search js-btn-search">Buscar</button>
+        <button class="section-search__btn-reset-search js-btn-reset-search">Reset</button>
+      </div>
+    </section>
+
+    <div class="section-list">
+      <section class="section-list-series js-section-list">
+        <h2 class="section-list-series__title">Series:</h2>
+        <ul class="section-list-series__list js-list-series">
+
+          <!--
+                aqui va lo de la funcion getHtmlSerie(serie)
+             -->
+        </ul>
+
+      </section>
+
+      <section class="section-list-favourites js-section-list-favourite">
+        <h2 class="section-list-favourites__title">Mis favoritas:</h2>
+        <ul class="section-list-favourites__list js-list-series-favourite">
+
+          <!--
+                aqui va lo de la funcion getHtmlSerie(serie fav)
+             -->
+        </ul>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
