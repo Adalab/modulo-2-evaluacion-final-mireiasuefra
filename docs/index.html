@@ -8,17 +8,20 @@
   <link rel="stylesheet" href="./assets/css/main.css" />
 </head>
 
-<body>
+<body class="bg-color">
 
   <header>
     <h1 class="principal_title">Buscador de Series de Anime</h1>
   </header>
-  <main>
+  <main class="main-bg">
     <section class="section-search">
       <input class="section-search__imput-series js-search_series" type="text" placeholder="Escribe aquí">
       <div>
         <button class="section-search__btn-search js-btn-search">Buscar</button>
         <button class="section-search__btn-reset-search js-btn-reset-search">Reset</button>
+
+
+
       </div>
     </section>
 
@@ -35,7 +38,10 @@
       </section>
 
       <section class="section-list-favourites js-section-list-favourite">
-        <h2 class="section-list-favourites__title">Mis favoritas:</h2>
+        <div class="container-section-list">
+          <h2 class="section-list-favourites__title">Mis favoritas:</h2>
+          <button class="section-list-favourites__btn-reset js-favourites__btn-reset">Reset</button>
+        </div>
         <ul class="section-list-favourites__list js-list-series-favourite">
 
           <!--
