@@ -21,11 +21,18 @@ const btnResetFav = document.querySelector('.js-favourites__btn-reset');
 
 // -- Funciones -- //
 
+function setLocalStorage() {
+  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+}
+
+function getUrlImg(serie) {
+  return serie.image_url ||
+    'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+}
+
 //traen codigo del html//
 function getHtmlSerie(serie) {
-  const urlImg =
-    serie.image_url ||
-    'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+  const urlImg = getUrlImg(serie);
 
   let htmlCode = `<li class="serie js-selectorSeriesFavourites" data-id="${serie.mal_id}">`;
   htmlCode += `  <h2 class="serie__title">${serie.title}</h2>`;
@@ -37,9 +44,7 @@ function getHtmlSerie(serie) {
 }
 
 function getHtmlSerieFavourite(serie) {
-  const urlImg =
-    serie.image_url ||
-    'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+  const urlImg = getUrlImg(serie);
 
   let htmlCode = `<li class="serie-favourite">`;
   htmlCode += `  <h2 class="serie-favourite__title">${serie.title} <span class="delete-fav js-deleteFav" data-id="${serie.mal_id}">x</span></h2>`;
@@ -114,7 +119,7 @@ function addSeriesFavourite(ev) {
     });
   }
   // guardo en local con stringify el array de favoritos. Lo guardo cuando hay modificacion en la lista.
-  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  setLocalStorage();
   //pinto las series favoritas
   paintListFavouriteSeries();
 }
@@ -130,7 +135,7 @@ function removeSeriesFavourites(ev) {
     favouriteSeriesAnime.splice(serieFavIndex, 1);
   }
   // vuelvo a guardar el local ya que hay modificaciones.
-  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  setLocalStorage();
   //vuelvo a pintar.
   paintListFavouriteSeries();
 }
@@ -148,6 +153,7 @@ function searchSeries(ev) {
     });
 }
 
+
 // Reset - con esta funcion se pueden resetear de golpe todas las favoritas.
 function handleClickReset() {
   seriesAnime = [];
@@ -159,7 +165,7 @@ function handleClickReset() {
 function handleClickResetFav() {
   favouriteSeriesAnime = [];
   // vuelvo a guardar el local ya que hay modificaciones.
-  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  setLocalStorage();
   //vuelvo a pintar las lista de fav
   paintListFavouriteSeries();
 }
