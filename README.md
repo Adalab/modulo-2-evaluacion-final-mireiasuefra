@@ -32,9 +32,9 @@ Si te apetece comentarme mejoras que podría realizar, piensa que estoy aprendie
   
   Si quieres conocerme un poco mas:
 
-        - Twitter: https://twitter.com/m_suefra
+        - [Twitter] (https://twitter.com/m_suefra)
 
-        - Linkedin: https://www.linkedin.com/in/mireia-s-0845661a4/
+        - [Linkedin] (https://www.linkedin.com/in/mireia-s-0845661a4/)
 
 
 

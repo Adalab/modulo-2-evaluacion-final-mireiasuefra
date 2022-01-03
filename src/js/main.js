@@ -1,12 +1,10 @@
 'use strict';
 
-console.log('>> Ready :)');
-
 // -- Variables -- //
 
 //arrays//
 let seriesAnime = [];
-// para el LocalStorage, relleno el array de fav con las seleccoionadas y para que no me de null le doy la opcion de que elija una u otra. Para que me lo pinte desde el principio tengo que llamar a la funcion de pintado desde el principio.
+// para el LocalStorage, relleno el array de fav con las seleccoionadas y para que no me de null le doy la opcion de que elija una u otra. Para que me lo pinte desde el principio (si fuera necesario) tengo que llamar a la funcion de pintado desde el principio.
 let favouriteSeriesAnime = JSON.parse(localStorage.getItem('favourites')) || [];
 
 //resto de variables//
@@ -18,6 +16,8 @@ const listSeriesFavourite = document.querySelector('.js-list-series-favourite');
 const inputSearch = document.querySelector('.js-search_series');
 const btnSearch = document.querySelector('.js-btn-search');
 const btnReset = document.querySelector('.js-btn-reset-search');
+
+const btnResetFav = document.querySelector('.js-favourites__btn-reset');
 
 // -- Funciones -- //
 
@@ -59,7 +59,7 @@ function paintListSeries() {
       listSeries.innerHTML += getHtmlSerie(serie);
     }
   } else {
-    listSeries.innerHTML = 'Serie no encontrada, prueba con otra'; // si me da tiempo lo meto en otro lado, ahora lo tengo en el ul.
+    listSeries.innerHTML = 'Serie no encontrada, prueba con otra';
   }
   listenAddSerie(); // lo meto aqui xq ya han pintado las series.
 }
@@ -70,7 +70,7 @@ function paintListFavouriteSeries() {
     const serie = favouriteSeriesAnime[index];
     listSeriesFavourite.innerHTML += getHtmlSerieFavourite(serie);
   }
-  listenRemoveFavourite(); // lo meto aqui xq ya han pintado las series.
+  listenRemoveFavourite(); // lo meto aqui xq ya han pintado las series fav.
 }
 
 // escuchar //
@@ -85,7 +85,7 @@ function listenAddSerie() {
   }
 }
 
-// para añadir funcionalidad a la X que he puesto en la lista de fav y poder eliminar los que queramos.  
+// para añadir funcionalidad a la X que he puesto en la lista de fav y poder eliminar los que queramos.
 function listenRemoveFavourite() {
   const selectorSerieFavourite = document.querySelectorAll('.js-deleteFav');
   // Añadir los listener
@@ -148,14 +148,26 @@ function searchSeries(ev) {
     });
 }
 
-// Reset
+// Reset - con esta funcion se pueden resetear de golpe todas las favoritas.
 function handleClickReset() {
-  location.reload();
+  seriesAnime = [];
+  inputSearch.value = '';
+  //vuelvo a pintar las lista.
+  paintListSeries();
+}
+
+function handleClickResetFav() {
+  favouriteSeriesAnime = [];
+  // vuelvo a guardar el local ya que hay modificaciones.
+  localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
+  //vuelvo a pintar las lista de fav
+  paintListFavouriteSeries();
 }
 
 // -- Listener -- //
 
 btnSearch.addEventListener('click', searchSeries);
 btnReset.addEventListener('click', handleClickReset);
+btnResetFav.addEventListener('click', handleClickResetFav);
 //llamo a la funcion de pintado desde el principio para que me salgan las favoritas.
 paintListFavouriteSeries();
