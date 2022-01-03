@@ -1,13 +1,13 @@
 'use strict';
 
-// -- Variables -- //
+// ------ VARIABLES ----- //
 
-//arrays//
+//*Arrays:
 let seriesAnime = [];
-// para el LocalStorage, relleno el array de fav con las seleccoionadas y para que no me de null le doy la opcion de que elija una u otra. Para que me lo pinte desde el principio (si fuera necesario) tengo que llamar a la funcion de pintado desde el principio.
+// para el LocalStorage, relleno el array de fav con las seleccionadas y para que no me de null le doy la opcion de que elija una u otra. Para que me lo pinte desde el principio (si fuera necesario) tengo que llamar a la funcion de pintado desde el principio.
 let favouriteSeriesAnime = JSON.parse(localStorage.getItem('favourites')) || [];
 
-//resto de variables//
+//*Resto de variables:
 const apiUrl = 'https://api.jikan.moe/v3/search/anime';
 
 const listSeries = document.querySelector('.js-list-series');
@@ -16,21 +16,25 @@ const listSeriesFavourite = document.querySelector('.js-list-series-favourite');
 const inputSearch = document.querySelector('.js-search_series');
 const btnSearch = document.querySelector('.js-btn-search');
 const btnReset = document.querySelector('.js-btn-reset-search');
-
 const btnResetFav = document.querySelector('.js-favourites__btn-reset');
 
-// -- Funciones -- //
 
+// --------- FUNCIONES ------- //
+
+//*Para acortar un poco el código:
 function setLocalStorage() {
+  //Guardo en local con stringify el array de favoritos.
   localStorage.setItem('favourites', JSON.stringify(favouriteSeriesAnime));
 }
 
 function getUrlImg(serie) {
-  return serie.image_url ||
-    'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+  return (
+    serie.image_url ||
+    'https://via.placeholder.com/210x295/ffffff/666666/?text=TV'
+  );
 }
 
-//traen codigo del html//
+//*traen codigo del html:
 function getHtmlSerie(serie) {
   const urlImg = getUrlImg(serie);
 
@@ -55,7 +59,7 @@ function getHtmlSerieFavourite(serie) {
   return htmlCode;
 }
 
-// pintan //
+//*Funciones que pintan:
 function paintListSeries() {
   listSeries.innerHTML = '';
   if (seriesAnime) {
@@ -78,25 +82,25 @@ function paintListFavouriteSeries() {
   listenRemoveFavourite(); // lo meto aqui xq ya han pintado las series fav.
 }
 
-// escuchar //
+//*Funciones que escuchan:
 function listenAddSerie() {
   const selectorSerieFavourite = document.querySelectorAll(
     '.js-selectorSeriesFavourites'
   );
-  // Añadir los listener
+  //Añado los listener
   for (let index = 0; index < selectorSerieFavourite.length; index++) {
     const element = selectorSerieFavourite[index];
-    element.addEventListener('click', addSeriesFavourite);
+    element.addEventListener('click', addSeriesFavourite); // añadir
   }
 }
 
-// para añadir funcionalidad a la X que he puesto en la lista de fav y poder eliminar los que queramos.
 function listenRemoveFavourite() {
+  //Así podemos eliminar las favoritas que queramos pinchando a la X
   const selectorSerieFavourite = document.querySelectorAll('.js-deleteFav');
-  // Añadir los listener
+  //Añado los listener
   for (let index = 0; index < selectorSerieFavourite.length; index++) {
     const element = selectorSerieFavourite[index];
-    element.addEventListener('click', removeSeriesFavourites);
+    element.addEventListener('click', removeSeriesFavourites); // eliminar
   }
 }
 
@@ -118,14 +122,14 @@ function addSeriesFavourite(ev) {
       image_url: serie.image_url,
     });
   }
-  // guardo en local con stringify el array de favoritos. Lo guardo cuando hay modificacion en la lista.
+
+  //Llamos al setlocal xq hay modificacion en la lista y vuelvo a pintar la lista de sieries fav.
   setLocalStorage();
-  //pinto las series favoritas
   paintListFavouriteSeries();
 }
 
-// repito la funcion de añadir series con las modificaciones necesarias para que se eliminen series en vez de añadirlas. Apoyandome en el .findindex (necesito la posicion) y el splice (que me da la opcion de eliminar)
 function removeSeriesFavourites(ev) {
+  //Repito la funcion de añadir series con las modificaciones necesarias para que se eliminen series en vez de añadirlas. Apoyandome en el .findindex (necesito la posicion) y el splice (que me da la opcion para eliminar)
   const serieId = parseInt(ev.currentTarget.dataset.id);
   const serieFavIndex = favouriteSeriesAnime.findIndex(
     (serie) => serie.mal_id === serieId
@@ -134,13 +138,13 @@ function removeSeriesFavourites(ev) {
   if (serieFavIndex >= 0) {
     favouriteSeriesAnime.splice(serieFavIndex, 1);
   }
-  // vuelvo a guardar el local ya que hay modificaciones.
+
+  //Llamos al setlocal xq hay modificacion en la lista y vuelvo a pintar la lista de sieries fav.
   setLocalStorage();
-  //vuelvo a pintar.
   paintListFavouriteSeries();
 }
 
-//--Fetch--//
+//--------FETCH-------//
 function searchSeries(ev) {
   ev.preventDefault();
   const searchText = inputSearch.value;
@@ -153,8 +157,7 @@ function searchSeries(ev) {
     });
 }
 
-
-// Reset - con esta funcion se pueden resetear de golpe todas las favoritas.
+//--------RESETEAR-------//
 function handleClickReset() {
   seriesAnime = [];
   inputSearch.value = '';
@@ -164,16 +167,15 @@ function handleClickReset() {
 
 function handleClickResetFav() {
   favouriteSeriesAnime = [];
-  // vuelvo a guardar el local ya que hay modificaciones.
+  //Llamos al setlocal xq hay modificacion en la lista y vuelvo a pintar la lista de sieries fav.
   setLocalStorage();
-  //vuelvo a pintar las lista de fav
   paintListFavouriteSeries();
 }
 
-// -- Listener -- //
+// -- LISTENERS -- //
 
 btnSearch.addEventListener('click', searchSeries);
 btnReset.addEventListener('click', handleClickReset);
 btnResetFav.addEventListener('click', handleClickResetFav);
-//llamo a la funcion de pintado desde el principio para que me salgan las favoritas.
+//Llamo a la funcion de pintado desde el principio para que me salgan las favoritas (si las hubiera).
 paintListFavouriteSeries();
