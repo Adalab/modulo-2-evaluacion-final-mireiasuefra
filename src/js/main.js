@@ -18,7 +18,6 @@ const btnSearch = document.querySelector('.js-btn-search');
 const btnReset = document.querySelector('.js-btn-reset-search');
 const btnResetFav = document.querySelector('.js-favourites__btn-reset');
 
-
 // --------- FUNCIONES ------- //
 
 //*Para acortar un poco el código:

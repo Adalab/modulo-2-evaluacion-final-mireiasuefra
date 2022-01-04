@@ -23,6 +23,8 @@ Si te apetece comentarme mejoras que podría realizar, piensa que estoy aprendie
   - Prettier
   - EsLint
 
+    - En este momento no tiene diseño responsive, solamente está maquetado para desktop.
+
 
 ## Autora ✒️
 
