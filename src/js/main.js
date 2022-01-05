@@ -17,6 +17,7 @@ const inputSearch = document.querySelector('.js-search_series');
 const btnSearch = document.querySelector('.js-btn-search');
 const btnReset = document.querySelector('.js-btn-reset-search');
 const btnResetFav = document.querySelector('.js-favourites__btn-reset');
+const btnCantFav = document.querySelector('.js-favourites__btn-cantidad-fav');
 
 // --------- FUNCIONES ------- //
 
@@ -36,9 +37,12 @@ function getUrlImg(serie) {
 //*traen codigo del html:
 function getHtmlSerie(serie) {
   const urlImg = getUrlImg(serie);
-
   let htmlCode = `<li class="serie js-selectorSeriesFavourites" data-id="${serie.mal_id}">`;
   htmlCode += `  <h2 class="serie__title">${serie.title}</h2>`;
+  htmlCode += `  <p class="serie__title">${serie.score}</p>`;
+  if (serie.score > 7) {
+    htmlCode += `  <p class="serie__title">recomendada</p>`;
+  }
   htmlCode += `  <img class="serie__img js-img-series" src="${urlImg}"`;
   htmlCode += `    alt="no existe imagen">`;
   htmlCode += `</li>`;
@@ -143,6 +147,10 @@ function removeSeriesFavourites(ev) {
   paintListFavouriteSeries();
 }
 
+function handleClickCuantos() {
+  console.log(favouriteSeriesAnime.length);
+}
+
 //--------FETCH-------//
 function searchSeries(ev) {
   ev.preventDefault();
@@ -178,3 +186,5 @@ btnReset.addEventListener('click', handleClickReset);
 btnResetFav.addEventListener('click', handleClickResetFav);
 //Llamo a la funcion de pintado desde el principio para que me salgan las favoritas (si las hubiera).
 paintListFavouriteSeries();
+
+btnCantFav.addEventListener('click', handleClickCuantos);
